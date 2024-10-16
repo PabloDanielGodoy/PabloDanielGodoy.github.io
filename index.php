@@ -1,8 +1,8 @@
 <html>
 <head>  
 </head>
-<bodyA>
+<body>
   <p>Hola</p>
-</bodyA>
+</body>
   
 </html>
