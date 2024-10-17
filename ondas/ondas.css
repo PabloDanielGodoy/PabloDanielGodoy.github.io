@@ -1,0 +1,193 @@
+h1{
+  text-align: center;    
+}
+p{
+  margin:0px;
+  padding:0px;
+}
+
+button.set_button{
+  vertical-align: top;
+  display: inline-block;
+  border-radius: 5px;
+  background-color: PaleGoldenRod;
+  border: 2px inset;
+  border-color: black;
+  color: black;
+  text-align: center;
+  font-size: 16px;
+  padding: 5px;
+  transition: 0.0s;
+  cursor: pointer;
+  margin: 0px;
+  font-weight: normal;
+}
+
+button.set_button:active {
+  background-color: PaleGoldenRod;
+  }
+
+button:hover {
+  background-color: Khaki;
+  font-weight: bold;
+  }
+
+button.activar_desactivar_activar{
+  vertical-align: top;
+  display: inline-block;
+  border-radius: 5px;
+  background-color: PaleGoldenRod;
+  border: 2px inset;
+  border-color: black;
+  color: black;
+  text-align: center;
+  font-size: 16px;
+  padding: 0px;
+  height: 60px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 1px;
+}
+
+button.activar_desactivar_desactivar{
+  vertical-align: top;
+  display: inline-block;
+  border-radius: 5px;
+  background-color: DarkKhaki;
+  border: 2px inset;
+  border-color: black;
+  text-align: center;
+  font-size: 16px;
+  padding: 0px;
+  height: 60px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 1px;
+}
+
+button.activar_desactivar_inabilitado{
+  vertical-align: top;
+  display: gray;
+  border-radius: 5px;
+  background-color: silver;
+  border: 2px inset;
+  border-color: black;
+  color: black;
+  text-align: center;
+  font-size: 16px;
+  padding: 0px;
+  width: 120px;
+  height: 60px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 1px;
+}
+
+
+button.activar_desactivar_activar:hover {
+  background-color: Khaki;
+  }
+
+button.activar_desactivar_inabilitado:hover{
+  font-weight: normal;
+  }
+  
+button.buttonx{
+  border-radius: 5px;
+  background-color: PaleGoldenRod;
+  border: 2px inset;
+  border-color: black;
+  color: black;
+  text-align: center;
+  font-size: 16px;
+  padding: 3px;
+  cursor: pointer;
+  margin: 0px;
+  transition: 0.0s;
+  font-weight: normal;
+}
+
+input[type=text].set_text{
+  width:60px;
+  font-size:16px;
+  padding:5px;
+}
+
+.principal{
+  z-index:1;
+  position: relative;
+  float: left;
+  margin-left: 20px;
+}
+
+.controles_cuadro {
+  z-index:2;
+  position: absolute;
+  border: 2px solid;
+  background-color: Khaki;
+  font-family: Arial;
+  font-size:20px;
+}
+
+.funciones_cuadro {
+  z-index:2;
+  position: absolute;
+  border: 2px solid;
+  background-color: white;
+  font-family: Arial;
+  font-size:20px;
+}
+
+.canvas_cuadro {
+  z-index:2;
+  position: absolute;
+  border: 2px solid;
+  background-color: white;
+  font-family: Arial;
+  font-size:20px;
+}
+
+.creditos {
+  z-index:2;
+  position: absolute;
+  width: 1000px;
+  height:100px;
+  border: 2px;
+  background-color: white;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 120px;
+  height: 25px;
+  background: Wheat;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 35px;
+  background: DarkGoldenRod;
+  cursor: pointer;
+}
+
+div.etiquetas_sliders {
+  float:left;
+  height:20px;
+  margin-bottom:0px;
+  margin-left:2px;
+  margin-top:5px;
+  padding-top:0px;
+  padding-bottom:0px;
+  width:70px;
+}

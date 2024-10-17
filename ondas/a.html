@@ -1,0 +1,103 @@
+1) Javascript code that graphs the wave function y(x,t)=Acos(kx-wt), graphing y on the vertical axis and x on the horizontal axis, assuming t growing continuously from 0. Use only canvas and javascript.
+2) Use lineTo function instead of fillRect.
+3) Draw the x and y axes, draw the axis arrows and the x and y labels. Axes, arrows and labels in brown
+4) For the waveform, use amplitude = 100, draw the function in black.
+5) change the code to show only two wavelengths
+6) change the code to show only two wavelengths that occupy the entire canvas drawing area
+7) Add a circle over the wave at coordinate x=0. Circle radius=5. Circle color: black.
+8) Add a circle over the wave at coordinate x=400. Circle radius=5. Circle color: black.
+9) Delete the first circle
+10) Add buttons that allow you to pause and resume the animation. Place the buttons on top of the canvas.
+11) add an input of type range that allows changing the angular frequency of the wave. Use minimum value equal to current value divided by 10 and maximum value equal to current value. Place this input on the canvas.
+12) change the position of the black circle on the waveform, so that the x coordinate is taken based on the part of the drawing area where the user left clicks the mouse.
+13) superimpose the following waveform: y=50*sin(kx-wt). Draw it in green with a dotted line. (acá cambión todo a rectángulos. Pero el resultado fue satisfactorio)
+14) superimpose the following waveform: y=-50*cos(kx-wt). Draw it in red with a dotted line.
+15) Add a button that, when the animation is paused, allows you to advance it one step, increasing the time variable one step. (se borraron las gráficas de velocidad y aceleración) (No tuvo el efecto deseado. Solo avanzaba un solo paso. Se corrigiò a mano).
+16) superimpose the following waveform: y=50*sin(kx-wt). Draw it in green with a dotted line. (acá cambión todo a rectángulos. Pero el resultado fue satisfactorio)
+17) superimpose the following waveform: y=-50*cos(kx-wt). Draw it in red with a dotted line. (Esto borró la forma de onda de velocidad).
+18) On the black circle of the black wave, draw a vector whose origin is the center of the black circle. The other end of the vector must have the same x coordinate, and its y coordinate must be yPos+50*sin(kx-wt), with yPos being the y coordinate of the black circle. Do not delete any of the above. (borró las gráficas de velocidad y aceleración)
+19) go back to the code before adding the vector.
+ A partir de este punto comenzó a fallar en cada paso. La generación de código se detenía y había que reanudarla.
+20) On the code presented below, without deleting any element, superimpose two vectors. The first vector with the following characteristics: its origin must be the center of the black circle. The other end of the vector must have the same x coordinate, and its y coordinate must be the y coordinate of the black circle - 100*sin(kx-wt). The second end of the vector must end in an arrow. The width of the vector line must be 3. Its color must be green. The second vector with the following characteristics: its origin must be the center of the black circle. The other end of the vector must have the same x coordinate, and its y coordinate must be the y coordinate of the black circle + 100*cos(kx-wt). The second end of the vector must end in an arrow. The width of the vector line must be 3. Its color must be red. The rest of the drawing should have line width 1.
+21) User
+On the code presented below, change the minimum value of the input range "angular frequency" to 0. Set the initial value to 0. (Acá ChatGPT solo indicó la línea a modificar, no generando código nuevo. Indicó el siguiente cambio <input id="frequencyInput" type="range" min="0" max="0.05" step="0.001" value="0">
+).
+22) javascript code using canvas, where a horizontal tube of length 800 px and height 60 px is drawn, inside which some molecules are drawn, similar to a kund tube. The horizontal distance of each molecule with respect to the equilibrium position must be given by a function y=f(x) to be defined by the user, where x is the x coordinate of each molecule. You can?
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gráfico de Función de Onda</title>
+</head>
+<body>
+  <canvas id="myCanvas" width="800" height="400"></canvas>
+
+  <script>
+    // Parámetros de la función de onda
+    let A = 100; // Amplitud
+    let k = 2*3.14/400; // Número de onda
+    let w = 0.5; // Frecuencia angular
+
+    // Obtener el elemento canvas del HTML
+    let canvas = document.getElementById('myCanvas');
+    let ctx = canvas.getContext('2d');
+
+    function drawWave() {
+      // Dibujar ejes x e y
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.beginPath();
+      ctx.moveTo(0, canvas.height / 2);
+      ctx.lineTo(canvas.width, canvas.height / 2);
+      ctx.moveTo(canvas.width / 2, 0);
+      ctx.lineTo(canvas.width / 2, canvas.height);
+      ctx.stroke();
+
+      // Dibujar flecha del eje x
+      ctx.moveTo(canvas.width - 10, canvas.height / 2 - 5);
+      ctx.lineTo(canvas.width, canvas.height / 2);
+      ctx.lineTo(canvas.width - 10, canvas.height / 2 + 5);
+      ctx.stroke();
+
+      // Dibujar flecha del eje y
+      ctx.moveTo(canvas.width / 2 - 5, 10);
+      ctx.lineTo(canvas.width / 2, 0);
+      ctx.lineTo(canvas.width / 2 + 5, 10);
+      ctx.stroke();
+
+      // Etiquetas para los ejes x e y
+      ctx.font = '12px Arial';
+      ctx.fillText('x', canvas.width - 10, canvas.height / 2 + 20);
+      ctx.fillText('y', canvas.width / 2 + 20, 10);
+
+      // Graficar la función de onda para diferentes valores de x
+      ctx.beginPath();
+      ctx.strokeStyle = 'black'; // Color de la línea
+      for (let x = 0; x < canvas.width; x += 5) {
+        let t = performance.now() * 0.001; // Tiempo en segundos
+        let y = A * Math.cos(k * x - w * t); // Función de onda
+
+        // Mapear y al rango de la pantalla
+        let yPos = canvas.height / 2 - y;
+
+        // Dibujar la función de onda
+        ctx.lineTo(x, yPos);
+        if(x==400){
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(x,yPos,5,0,2*3.14);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.lineTo(x, yPos);            
+        }
+      }
+      ctx.stroke();
+    }
+
+    // Llamar a la función para dibujar la onda repetidamente
+    setInterval(drawWave, 16); // Actualizar cada 16ms (aproximadamente 60 fps)
+  </script>
+</body>
+</html>
+
+
+

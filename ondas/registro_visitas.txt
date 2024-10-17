@@ -1,0 +1,6 @@
+2023/12/28 - 18:06:26pm - IP: 192.168.100.2 - Linux - Google Chrome
+2023/12/28 - 18:08:57pm - IP: 192.168.100.7 - Linux - Google Chrome
+2023/12/28 - 18:09:02pm - IP: 192.168.100.7 - Linux - Google Chrome
+2023/12/28 - 18:09:25pm - IP: 192.168.100.7 - Linux - Google Chrome
+2023/12/28 - 18:10:15pm - IP: 192.168.100.2 - Linux - Firefox
+2023/12/28 - 18:10:18pm - IP: 192.168.100.2 - Linux - Firefox
