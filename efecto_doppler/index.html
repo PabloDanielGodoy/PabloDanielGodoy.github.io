@@ -1,1 +1,174 @@
+<!DOCTYPE html>
+<head>
+  <meta name="author" content="Pablo Daniel Godoy"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8"/>
+  <title>Simulador Protocolo TCP</title>
+  <link rel="icon" type="image/x-icon" href="logo_uncuyo.jpg"/>
+  <link rel="stylesheet" href="efecto_doppler_styles.css"/>
+  <script src="clases.js"></script>
+  <script src="variables.js"></script>
+  <script src="funciones.js"></script>  
+  <script src="funciones_interfaz_grafica.js"></script>  
+</head>
+<body onload="inicializar();">
+<?php
+  $file = fopen("registro_visitas.txt","a");
+  fwrite($file,date("Y/m/d")." - ".date("H:i:sa")." - IP: ".$_SERVER['REMOTE_ADDR']."\n");
+  fclose($file); 
+?>
+
+  <h1>Simulador Efecto Doppler</h1>
+  <p style="text-align:center">
+<!--    <span style="padding-rigth:20px"><a href="ayuda.html">ayuda</a></span>  -->
+    <span style="padding-left:20px"><a href="sugerencias.html">Sugerencias o comentarios</a></span>
+  </p>
+
+<!--Bloque principal, contiene 3 bloques organizados de forma horizontal-->
+  <div class="principal">   
+    <div class="controles_cuadro" style="top:0px;height:130px;"> <!--Primer bloque: controles--> 
+      <div style="float:left;padding:5px;"> <!-- div para slider control velocidad emisor-->
+        <div style="font-size:18px;text-align:center;">
+          Velocidad emisor (Km/h)
+        </div>
+        <div>
+          <div style="text-align:left;" class="etiquetas_sliders">-300</div>
+          <div style="text-align:center;" class="etiquetas_sliders"> 0</div>
+          <div style="text-align:right;" class="etiquetas_sliders">300</div>
+        </div>
+        <div>
+          <input type="range" min="-300" max="300" value=velocidad_emisor class="slider" id="range_velocidad_emisor_id"
+          onchange="range_velocidad_emisor_new_value();">
+        </div>
+        <div style="margin-top:5px;">
+          <span>
+            <input type="text" value="0" name="text_velocidad_emisor" id="text_velocidad_emisor_id" class="set_text">
+          </span>
+          <span>  
+            <button class="set_button" name="button_velocidad_emisor" id="button_velocidad_emisor_id" 
+            onclick="velocidad_emisor_clic_button();"> set </button>
+          </span>
+          <span>  
+            <button class="set_button" name="button_velocidad_emisor_set_0" id="button_velocidad_emisor_set_0_id"
+            onclick="velocidad_emisor_set_0_clic_button();">set to 0 </button>
+          </span>          
+        </div>      
+      </div>    
+ 
+      <div style="float: left;padding:5px;"> <!-- div para slider control velocidad receptor-->
+        <div style="font-size:18px;text-align:center;">Velocidad receptor (Km/h)
+        </div>
+        <div>
+          <div style="text-align:left;" class="etiquetas_sliders">-300</div>
+          <div style="text-align:center;" class="etiquetas_sliders"> 0</div>
+          <div style="text-align:right;" class="etiquetas_sliders">300</div>
+        </div>
+        <div>
+          <input type="range" min="-300" max="300" value=velocidad_receptor class="slider" id="range_velocidad_receptor_id" 
+          onchange="range_velocidad_receptor_new_value();"/>
+        </div>
+        <div style="margin-top:5px;">
+          <span>
+            <input type="text" value="0" name="text_velocidad_receptor" id="text_velocidad_receptor_id" class="set_text">
+          </span>
+          <span>  
+            <button class="set_button" name="button_velocidad_receptor" id="button_velocidad_receptor_id"
+            onclick="velocidad_receptor_clic_button();"> set </button>
+          </span>
+          <span>  
+            <button class="set_button" name="button_velocidad_receptor_set_0" id="button_velocidad_receptor_set_0_id"
+            onclick="velocidad_receptor_set_0_clic_button();"> set to 0 </button>
+          </span>          
+        </div>
+      </div>
+      
+      <div style="float:left;padding:5px;"> <!-- div para slider control velocidad viento-->
+        <div style="font-size:18px;text-align:center;">Velocidad viento (Km/h)
+        </div>
+        <div>
+          <div style="text-align:left;" class="etiquetas_sliders">-300</div>
+          <div style="text-align:center;" class="etiquetas_sliders"> 0</div>
+          <div style="text-align:right;" class="etiquetas_sliders">300</div>
+        </div>
+        <div>
+          <input type="range" min="-300" max="300" value=velocidad_viento class="slider" id="range_velocidad_viento_id" 
+          onchange="range_velocidad_viento_new_value();"/>
+        </div>
+        <div style="margin-top:5px;">
+          <span>
+            <input type="text" value="0" name="text_velocidad_viento" id="text_velocidad_viento_id" 
+            class="set_text">
+          </span>
+          <span>  
+            <button class="set_button" name="button_velocidad_viento" id="button_velocidad_viento_id"
+            onclick="velocidad_viento_clic_button();"> set </button>
+          </span>
+          <span>  
+            <button class="set_button" name="button_velocidad_viento_set_0" id="button_velocidad_viento_set_0_id"
+            onclick="velocidad_viento_set_0_clic_button();"> set to 0 </button>
+          </span>          
+        </div>
+      </div>    
+
+      <div style="float:left;padding:5px;"> <!-- div para slider control frecuencia emisor-->
+        <div style="font-size:18px;text-align:center;">Frecuencia emisor (Hz)
+        </div>
+        <div>
+          <div style="text-align:left;" class="etiquetas_sliders">0</div>
+          <div style="text-align:center;" class="etiquetas_sliders"> </div>
+          <div style="text-align:right;" class="etiquetas_sliders">20 KHz</div>
+        </div>
+        <div>
+          <input type="range" min="1" max="20000" value=frecuencia_emisor class="slider" id="range_frecuencia_emisor_id" 
+          onchange="range_frecuencia_emisor_new_value();"/>
+        </div>
+        <div style="margin-top:5px;">
+          <span>
+            <input type="text" value=frecuencia_emisor name="text_frecuencia_emisor" id="text_frecuencia_emisor_id" 
+            class="set_text">
+          </span>
+          <span>  
+            <button class="set_button" name="button_frecuencia_emisor" id="button_frecuencia_emisor_id"
+            onclick="frecuencia_emisor_click_button();"> set </button>
+          </span>
+          <span>  
+            <button class="set_button" name="button_frecuencia_emisor_set_0" id="button_frecuencia_emisor_set_inicial_id"
+            onclick="frecuencia_emisor_set_inicial_click_button();"> set to 500 KHz </button>
+          </span>          
+        </div>
+      </div>    
+
+    </div>
+    
+    <div class="principal_cuadro">  <!--Segundo bloque: principal-->  
+      <canvas id="rectangle_area" width="1000" height="350" class="rectangle_area"></canvas> 
+    </div>
+   
+    <div class="controles_cuadro" style="top:450px;height:80px;"> <!--Tercer bloque: resultados-->
+      <div style="float:left;"> <!--div boton comenzar pausar-->
+        <button id="button_comenzar_pausar_id" class="activar_desactivar_activar" style="margin:10px;"
+        onclick="button_comenzar_pausar_click();">Comenzar</button>
+      </div>
+      <div style="float:left;"> <!--div boton reiniciar-->
+        <button id="button_reiniciar_id" class="set_button" style="margin:10px;height:60px;padding:20px;"
+        onclick="reiniciar();">Reiniciar</button>
+      </div>
+      <div style="float:left;"> <!--div boton mostrar onda reflejada-->
+        <button id="button_mostrar_onda_reflejada_id" class="activar_desactivar_activar" style="margin:10px;"
+        onclick="button_mostrar_onda_reflejada_click();">Mostrar Onda Reflejada</button>
+      </div>
+
+      <div id="frecuencia_receptor_label_id" style="float:left;margin-top:0px;margin-left:10px;"></div>
+      
+    </div>  
+  <div class="creditos" style="top:550px;"> <!--Cuarto bloque: creditos-->
+    <address>
+      Desarrollado por Pablo Daniel Godoy<br>
+      Facultad de Ingeniería<br>
+      Universidad Nacional de Cuyo
+    </address>
+  </div> 
+  
+</body>
+</html>
 
