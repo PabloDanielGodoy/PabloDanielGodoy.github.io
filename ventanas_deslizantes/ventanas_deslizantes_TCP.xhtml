@@ -1,0 +1,112 @@
+<!DOCTYPE html> 
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta name="author" content="Pablo Daniel Godoy"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8"/>
+  <title>Simulador Protocolo TCP</title>
+  <link rel="icon" type="image/x-icon" href="logo_uncuyo.jpg"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <script src="funciones.js"/>
+  <script src="clases.js"/>  
+  <script src="variables.js"/>  
+</head>
+<body onload="inicializar();">
+  <h1>Simulador Protocolo TCP</h1>
+  <a href="ayuda.xhtml"><p style="text-align:center">ayuda</p></a>
+  
+ 
+<!--Bloque principal, contiene 4 bloques organizados de forma vertical-->
+  <div class="principal">   
+    <div class="emisor_cuadro"> <!--Primer bloque: botones emisor--> 
+      <div style="float: left;">
+        <span>
+          <button id="agregar_un_paquete_buffer_emisor_button" class="boton_comun" onclick="agregar_paquete_buffer_emisor_buffer();">
+            Agregar un paquete al buffer</button>      
+        </span>
+        <span>    
+          <button id="enviar_un_paquete_button" class="boton_comun" onclick="enviar_un_paquete_button();">Enviar un paquete</button>   
+        </span>
+        <span style="font-size:50px;padding-left:20px;padding-right:30px">
+          EMISOR
+        </span>
+      </div>  
+      <div style="float:top;">           
+        <div style="float: top;padding:10px;font-size:18px">
+          Velocidad de entrega de paquetes al buffer
+        </div>
+      </div>   
+      <div style="float: top;">
+        <span>MAX</span>
+        <span><input type="range" min="500" max="15000" value="5000" class="slider" id="agregar_paquetes_periodicamente_range" 
+          onchange="agregar_paquetes_periodicamente_new_range();"/></span>
+        <span>MIN</span>
+      </div>  
+    </div>
+    
+    <div class="paquetes_cuadro">  <!--Segundo bloque: paquetes-->  
+      <canvas id="rectangle_area" width="800" height="350" class="rectangle_area"></canvas> 
+    </div>
+   
+    <div class="receptor_cuadro"> <!--Tercer bloque: botones receptor-->
+      <div style="float: left;">
+        <span style="margin-right:40px">
+          <button id="quitar_un_paquete_buffer_receptor_button" class="boton_comun" onclick="quitar_un_paquete_buffer_receptor_button();">
+          Quitar un paquete</button>
+        </span>
+        <span style="font-size:50px;padding-left:50px;padding-right:20px;">
+          RECEPTOR
+        </span>
+      </div>  
+      <div style="float:top;">           
+        <div style="float: top;padding:10px;font-size:18px">
+          Velocidad de retirada de paquetes del buffer
+        </div>
+      </div>   
+      <div style="float: top;">
+        <span>MAX</span>
+          <input type="range" min="500" max="15000" value="5000" class="slider" id="quitar_paquetes_periodicamente_range" 
+          onchange="quitar_paquetes_periodicamente_new_range();"/>
+        <span>MIN</span>
+      </div>  
+    </div>    
+    <div class="creditos"> <!--Cuarto bloque: creditos-->
+      <address>
+        Desarrollado por Pablo Daniel Godoy<br/>
+        ITIC - Universidad Nacional de Cuyo
+      </address>
+    </div> 
+  </div>
+  
+  
+<center>
+  <div class="derecha"> <!--Bloque derecha-->
+    <div style="padding:10px"> 
+      <button id="comenzar_envio_button" class="activar_desactivar_activar" onclick="comenzar_envio();">
+        Comenzar envío</button>
+    </div>
+
+    <div style="padding-top:10px">
+      <p style="font-size:18px;text-align:center;">Velocidad del canal de comunicaciones</p>
+      <span>MAX</span><span>
+      <input type="range" min="20" max="150" value="60" class="slider" id="velocidad_enviar_paquetes_periodicamente_range" 
+        onchange="velocidad_enviar_paquetes_periodicamente_new_range();"/></span>
+      <span>MIN</span>
+    </div>
+
+    <div style="padding-top:10px">
+      <p style="font-size:18px;text-align:center;">Tasa de pérdida de paquetes</p>
+      <span>MAX</span><span>
+      <input type="range" min="2" max="30" value="10" class="slider" id="tasa_perdida_paquetes_range" 
+        onchange="tasa_perdida_paquetes_new_range();"/></span>
+      <span>MIN</span>
+    </div>
+
+    <div style="margin-top:60px;border:1px solid">
+      <p style="font-size:18px;text-align:center;">Data rate:</p>
+      <p style="font-size:18px;text-align:center;" id="label_data_rate">0 paquetes/minuto</p>
+    </div>    
+  </div>  
+</center>
+</body>
+</html>

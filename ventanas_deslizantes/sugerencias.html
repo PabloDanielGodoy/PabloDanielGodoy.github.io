@@ -1,0 +1,29 @@
+<!DOCTYPE html> 
+<head>
+  <meta name="author" content="Pablo Daniel Godoy"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8"/>
+  <title>Ayuda</title>
+  <link rel="icon" type="image/x-icon" href="logo_uncuyo.jpg"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <script language="Javascript">
+    function borrar(){
+      document.getElementById("sugerencias_textarea_id").innerHTML="";
+    }
+  </script>
+
+</head>
+<body>
+  <center>
+  <p style="font-size:18px;font-weight: bold;">Comentarios y sugerencias</p>
+  </center>
+  <p style="font-size:18px;align:left;width:80%;padding-left:10%;">Escriba abajo comentarios, sugerencias o críticas. Los comentarios se enviarán al autor de forma anónima. Si desea ser contactado, incluya datos de contacto.<br>Muchas gracias!!</p>
+<center>
+  <form id="sugerencias_form_id" name="sugerencias_form" method="POST" action="sugerencias_procesar.php">
+    <textarea rows="20" id="sugerencias_textarea_id" name="sugerencias_textarea" style="border-radius: 5px; background-color: PaleGoldenRod;width:80%" onfocus="borrar();">Escriba aqui comentarios y/o sugerencias</textarea>
+    </br> 
+    <input type="submit" value="Enviar y regresar al simulador" style="border-radius: 5px; background-color: PaleGoldenRod; font-size: 16px; height: 60px; font-weight: bold;padding:5px">
+  </form>
+</center>
+</body>
+</html>

@@ -1,0 +1,200 @@
+h1{
+  text-align: center;    
+}
+
+button.boton_comun{
+  vertical-align: top;
+  display: inline-block;
+  border-radius: 5px;
+  background-color: PaleGoldenRod;
+  border: 2px inset;
+  border-color: black;
+  color: black;
+  text-align: center;
+  font-size: 16px;
+  padding: 0px;
+  width: 100px;
+  height: 80px;
+  transition: 0.0s;
+  cursor: pointer;
+  margin: 10px;
+  font-weight: normal;
+}
+
+button.boton_comun:active {
+  background-color: PaleGoldenRod;
+  }
+
+button:hover {
+  background-color: Khaki;
+  font-weight: bold;
+  }
+
+button.boton_comun_error{
+  vertical-align: top;
+  display: inline-block;
+  background-color: Khaki;
+  border: none;
+  border-color: Khaki;
+  color: red;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 0px;
+  width: 120px;
+  height: 80px;
+  transition: 0.0s;
+  margin: 1px;
+  cursor: not-allowed;
+}
+
+button.activar_desactivar_activar{
+  vertical-align: top;
+  display: inline-block;
+  border-radius: 5px;
+  background-color: PaleGoldenRod;
+  border: 2px inset;
+  border-color: black;
+  color: black;
+  text-align: center;
+  font-size: 16px;
+  padding: 0px;
+  width: 120px;
+  height: 60px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 1px;
+}
+
+button.activar_desactivar_desactivar{
+  vertical-align: top;
+  display: inline-block;
+  border-radius: 5px;
+  background-color: DarkKhaki;
+  border: 2px inset;
+  border-color: black;
+  text-align: center;
+  font-size: 16px;
+  padding: 0px;
+  width: 120px;
+  height: 60px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 1px;
+}
+
+button.activar_desactivar_inabilitado{
+  vertical-align: top;
+  display: gray;
+  border-radius: 5px;
+  background-color: silver;
+  border: 2px inset;
+  border-color: black;
+  color: black;
+  text-align: center;
+  font-size: 16px;
+  padding: 0px;
+  width: 120px;
+  height: 60px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 1px;
+}
+
+
+button.activar_desactivar_activar:hover {
+  background-color: Khaki;
+  }
+
+button.activar_desactivar_inabilitado:hover{
+  font-weight: normal;
+  }
+
+.principal{
+  z-index:1;
+  position: relative;
+  float: left;
+  width: 800px;
+  height: 600px;
+  margin-left: 20px;
+}
+
+.emisor_cuadro {
+  z-index:2;
+  position: absolute;
+  top:0px;
+  height:100px;
+  width: 800px;
+  border: 2px solid;
+  background-color: Khaki;
+}
+
+.paquetes_cuadro {
+  z-index:2;
+  position: absolute;
+  top:100px;
+  height:350px;
+  width: 800px;
+  border: 2px solid;
+  background-color: white;
+}
+
+.receptor_cuadro {
+  z-index:2;
+  position: absolute;
+  top:450px;
+  height:100px;
+  width: 800px;
+  border: 2px solid;
+  background-color: Khaki;
+}
+ 
+.creditos {
+  z-index:2;
+  position: absolute;
+  top: 560px;
+  width: 800px;
+  height:100px;
+  border: 2px;
+  background-color: white;
+}
+
+.derecha {
+  z-index:2;
+  background-color:blue;
+  position: absolute;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  margin-left: 830px;
+  margin-right: 10px;
+  background-color:white;
+  float: left;
+  width: 200px;
+  text-align: left;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100px;
+  height: 25px;
+  background: Yellow;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 35px;
+  background: DarkGoldenRod;
+  cursor: pointer;
+}
+
