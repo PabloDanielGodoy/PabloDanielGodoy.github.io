@@ -3,121 +3,201 @@
 <head>
   <script src="funciones.js"></script>
   <link rel="icon" type="image/x-icon" href="logo_uncuyo.jpg"/>
-  <link rel="stylesheet" href="ondas.css"/>  
-  <title>Wave Function Graph</title>
-
+  <link rel="stylesheet" href="fasores_CA.css"/>  
+  <title>AC phasor diagram</title>
 </head>
-<body onload="start();">
- <p style="text-align:center;font-size:28px">Waves Simulador</p>
-  <p style="text-align:center">
-    <span style="padding-left:20px"><a href="sugerencias.html">Suggestions or comments</a></span>
-  </p>
+
+<body onload="iniciar();">
+
+<?php
+  $usuario_agente = $_SERVER['HTTP_USER_AGENT'];
+  $navegador = "Desconocido";
+  $sistema_operativo = "Desconocido";
+  // Detectar el navegador
+  if (strpos($usuario_agente, 'MSIE') !== FALSE) {
+    $navegador = 'Internet Explorer';
+  } elseif (strpos($usuario_agente, 'Firefox') !== FALSE) {
+    $navegador = 'Firefox';
+  } elseif (strpos($usuario_agente, 'Chrome') !== FALSE) {
+    $navegador = 'Google Chrome';
+  } elseif (strpos($usuario_agente, 'Safari') !== FALSE) {
+    $navegador = 'Safari';
+  } elseif (strpos($usuario_agente, 'Opera') !== FALSE) {
+    $navegador = 'Opera';
+  }
+  // Detectar el sistema operativo
+  if (strpos($usuario_agente, 'Windows') !== FALSE) {
+    $sistema_operativo = 'Windows';
+  } elseif (strpos($usuario_agente, 'Mac') !== FALSE) {
+    $sistema_operativo = 'Macintosh';
+  } elseif (strpos($usuario_agente, 'Linux') !== FALSE) {
+    $sistema_operativo = 'Linux';
+  } elseif (strpos($usuario_agente, 'Android') !== FALSE) {
+    $sistema_operativo = 'Android';
+  } elseif (strpos($usuario_agente, 'iOS') !== FALSE) {
+    $sistema_operativo = 'iOS';
+  }
+  $file = fopen("registro_visitas.txt","a");
+  fwrite($file,date("Y/m/d")." - ".date("H:i:sa")." - IP: ".$_SERVER['REMOTE_ADDR']. " - ".$sistema_operativo." - ".$navegador."\n");
+  fclose($file); 
+?>
+
+
+
+<p style="text-align:center;font-size:28px">AC Phasor Diagram</p>
+<p style="text-align:center">
+<span style="padding-left:20px"><a href="sugerencias.html">Suggestions or comments</a></span>
+</p>
 
 <div class="principal">   
-<!--Primer bloque: controles. Arriba-->
-<div class="controles_cuadro" style="top:0px;left:0px;height:100px;width:1071px;">  
-  <div style="float:left;"> <!--div boton comenzar pausar-->
-      <button id="button_comenzar_pausar_id" class="activar_desactivar_activar" style="margin-top:20px;margin-left:10px;padding:20px;width:80px;" onclick="button_comenzar_pausar_click();">Start</button>
-  </div>
 
-  <div style="float:left;"> <!--div boton Reiniciar-->
+<!--Primer bloque: controles. Arriba-->
+<div class="controles_cuadro" style="top:0px;left:0px;height:100px;width:1250px;">  
+    <!--div boton comenzar pausar-->
+    <div style="float:left;"> 
+    <button id="button_comenzar_pausar_id" class="activar_desactivar_activar" style="margin-top:20px;margin-left:10px;padding:20px;width:80px;" onclick="button_comenzar_pausar_click();">Start
+    </button>
+    </div>
+
+    <div style="float:left;"> <!--div boton Reiniciar-->
     <button class="set_button" style="margin-top:20px;margin-left:10px;height:60px;padding:10px;padding:20px;width:100px;"
         onclick="restartAnimation();">Restart</button>
-  </div>
+    </div>
 
 
-  <div style="float:left;"> <!--div boton Advance time One Step-->
+    <div style="float:left;"> <!--div boton Advance time One Step-->
     <button class="set_button" style="margin-top:20px;margin-left:10px;height:60px;padding:10px;width:130px;"
-        onclick="advanceAnimation();">Advance time &#916(&#969t)=0.1*&#960</button>
-  </div>
+        onclick="advanceAnimation();">advance one step</button>
+    </div>
 
-  <!-- div para sentido de la onda--> 
-  <div style="float:left;margin-top:20px;margin-left:40px;margin-right:20px;height:60px;"> 
+    <!-- div para R--> 
+    <div style="float:left;margin-top:20px;margin-left:10px;margin-right:10px;height:80px;"> 
     <div style="font-size:18px;text-align:center;">
-        Direction
+        Resistance
     </div>
-    <div>
-      <input type="radio" id="posx" name="direction" value="posx">
-      <label for="posx" style="font-size:20px;">+x</label><br>
-      <input type="radio" id="negx" name="direction" value="negx">
-      <label for="posx" style="font-size:20px;">-x</label><br>
+    <div style="display:flex; align-items:center; justify-content:flex-end; gap:0px;">
+        <input type="text" id="text_R_id" name="R_text" value="100" style="width:80px;font-size: 16px;text-align:right;" onchange="actualizar_valores();">
+        <select id="unit_R_id" style="font-size:16px;" onchange="actualizar_valores();">
+            <option value="ohm" selected>&Omega;</option>
+            <option value="Kohm">K&Omega;</option>
+            <option value="Mohm">M&Omega;</option>            
+    </select>
     </div>
-  </div>
+    </div>
 
-  <!-- div para Angular Frequency--> 
-  <div style="float:left;padding:10px;margin-left:20px;height:80px;width:120px;text-align:center;">
+    <!-- div para L--> 
+    <div style="float:left;margin-top:20px;margin-left:10px;margin-right:10px;height:60px;"> 
     <div style="font-size:18px;text-align:center;">
-       Frequency
+        Inductance
     </div>
-    <div>
-      <div style="text-align:left;width:58px;" class="etiquetas_sliders">0</div>
-      <div style="text-align:right;width:58px;" class="etiquetas_sliders">MAX</div>
+    <div style="display:flex; align-items:center; justify-content:flex-end; gap:0px;">
+        <input type="text" id="text_L_id" name="L_text" value="400" style="width:80px;font-size: 16px;text-align:right;" onchange="actualizar_valores();">
+        <select id="unit_L_id" style="font-size:16px;" onchange="actualizar_valores();">
+            <option value="H">H</option>
+            <option value="mH" selected>mH</option>
+            <option value="uH">μH</option>            
+    </select>
     </div>
-    <div>
-      <input id="frequencyInput" type="range" min="0" max="0.05" step="0.001" value="0.025" class="slider">
     </div>
-  </div>
 
-  <!-- div para wavelength--> 
-  <div style="float:left;padding:10px;margin-left:20px;height:80px;width:120px;text-align:center;">
+<!-- div para C--> 
+    <div style="float:left;margin-top:20px;margin-left:10px;margin-right:10px;height:60px;"> 
     <div style="font-size:18px;text-align:center;">
-      Wavelength
+        Capacitance
     </div>
-    <div>
-      <div style="text-align:left;width:58px;" class="etiquetas_sliders">MAX</div>
-      <div style="text-align:right;width:58px;" class="etiquetas_sliders">MIN</div>
+    <div style="display:flex; align-items:center; justify-content:flex-end; gap:0px;">
+        <input type="text" id="text_C_id" name="C_text" value="4.7" style="width:80px;font-size: 16px;text-align:right;" onchange="actualizar_valores();">     
+        <select id="unit_C_id" style="font-size:16px;" onchange="actualizar_valores();">
+            <option value="F">F</option>
+            <option value="mF">mF</option>
+            <option value="uF" selected>μF</option>
+            <option value="nF">nF</option>
+            <option value="pF">pF</option>
+    </select>
     </div>
-    <div>
-      <input id="wavelengthInput" type="range" min="0.5" max="4" step="0.001" value="2" class="slider">
     </div>
-  </div>
+    
+<!-- div para Vs--> 
+    <div style="float:left;margin-top:20px;margin-left:10px;margin-right:10px;height:60px;"> 
+    <div style="font-size:18px;text-align:center;">
+        Source voltage
+    </div>
+    <div  style="display:flex; align-items:center; justify-content:flex-end; gap:0px;">
+        <input type="text" id="text_Vs_id" name="Vs_text" value="100" style="width:80px;font-size: 16px;text-align:right;" onchange="actualizar_valores();">
+        <label style="border:1px solid #555;padding: 0px 3px 0px 3px;">volts</label>
+    </div>
+    </div>
 
-  <!-- div para x position--> 
-  <div style="float:left;padding-left:10px;padding-top:5px;margin-left:20px;height:80px;text-align:center;">
-    <div style="text-align:center;">
-      Set x position      
+<!-- div para F--> 
+    <div style="float:left;margin-top:20px;margin-left:20px;margin-right:20px;height:60px;"> 
+    <div style="font-size:18px;text-align:center;">
+        Frequency
     </div>
-    <div style="height:31px;">
-      <div style="float:left">
-        <input type="text" id="updateCirclePosition_text_lambda_id" style="width:60px;font-size: 20px;"></input>
-      </div>    
-      <div style="float:left;width:60px;font-size:20px;text-align:left;">      
-        *&#955  
-      </div>
-      <div style="float:left;">      
-        <button class="buttonx" onclick="updateCirclePosition_from_text_lambda();">Update</button>
-      </div>
-    </div>  
-    <div style="height:31px;">
-      <div style="float:left;">
-        <input type="text" id="updateCirclePosition_text_pik_id" style="width:60px;font-size: 20px;"></input>
-      </div>
-      <div style="float:left;width:60px;text-align:left;">      
-        *&#960/k
-      </div>
-      <div style="float:left;background-color:cyan;">      
-        <button class="buttonx"  onclick="updateCirclePosition_from_text_pik();">Update</button>    
-      </div>
+    <div  style="display:flex; align-items:center; justify-content:flex-end; gap:0px;">
+        <input type="text" id="text_frequency_id" name="frequency_text" value="1000" style="width:80px;font-size: 16px;" onchange="actualizar_valores();">
+        <select id="unit_frequency_id" style="font-size:16px;" onchange="actualizar_valores();">
+            <option value="Hz">Hz</option>
+            <option value="KHz">KHz</option>
+            <option value="MHz">MHz</option>
+            <option value="rad/seg" selected>rad/seg</option>
+            <option value="Krad/seg">Krad/seg</option>
+            <option value="Mrad/seg">Mrad/seg</option>
+    </select>
     </div>
-  </div>
+    </div>
 </div>
 
+<!--Primer bloque parte B: controles--> 
+<div class="controles_cuadro" style="top:100px;left:0px;height:100px;width:1250px;"> 
+  <div style="float:left;margin-top:20px;margin-left:10px;margin-right:10px;height:80px;"> 
+    <div style="font-size:18px;text-align:center;">
+        Display
+    </div>
+    <div style="display:flex; align-items:center; justify-content:flex-end; gap:0px;">
+        <input type="checkbox" id="checkbox_VS_id" checked>
+        <label for="checkbox_VS_id">Vs</label>
+        <input type="checkbox" id="checkbox_VR_id" style="margin-left:15px;" checked>
+        <label for="checkbox_VR_id">V<sub>R</sub></label>
+        <input type="checkbox" id="checkbox_VL_id" style="margin-left:15px;" checked>
+        <label for="checkbox_VL_id">V<sub>L</sub></label>
+        <input type="checkbox" id="checkbox_VC_id" style="margin-left:15px;" checked>
+        <label for="checkbox_VC_id">V<sub>C</sub></label>
+        <input type="checkbox" id="checkbox_i_id" style="margin-left:15px;" checked>
+        <label for="checkbox_i_id">i</label>
+        <input type="checkbox" id="checkbox_fi_id" style="margin-left:15px;" checked>
+        <label for="checkbox_i_id">&#934</label>
+    </div>
+  </div>
+  <div style="float:left;margin-top:10px;margin-left:100px;margin-right:10px;height:80px;">
+    <div style="font-size:18px;text-align:center;height: 30px;">
+        Examples
+    </div>
+      <div style="display:flex; align-items:center; justify-content:flex-end; gap:0px;">
+      <button id="button_RLC_inductive_id" class="activar_desactivar_activar" style="margin-top:0px;margin-left:10px;padding:0px;width:140px;height: 30px;" onclick="button_RLC_inductive_click();">RLC inductive    </button>
+      <button id="button_RLC_capacitive_id" class="activar_desactivar_activar" style="margin-top:00px;margin-left:10px;padding:0px;width:140px; height: 30px;" onclick="button_RLC_capacitive_click();">RLC capacitive</button> 
+      <button id="button_resonance_id" class="activar_desactivar_activar" style="margin-top:00px;margin-left:10px;padding:0px;width:140px; height: 30px;" onclick="button_resonacia_click();">Resonance</button>
+      <button id="button_RL_id" class="activar_desactivar_activar" style="margin-top:00px;margin-left:10px;padding:0px;width:140px; height: 30px;" onclick="button_RL_click();">RL (infinite C)</button>
+      <button id="button_RC_id" class="activar_desactivar_activar" style="margin-top:00px;margin-left:10px;padding:0px;width:140px; height: 30px;" onclick="button_RC_click();">RC (L=0 H)</button>
+  </div>
+</div>
+</div>
 
-
-<!--Segundo bloque: canvas--> 
-<div class="canvas_cuadro" style="top:100px;left:0px;height:470px;width:820px;">   
-    <p>click on the area to set x (clic sobre el área para fijar x)</p>
-    <canvas id="waveCanvas" style="margin-left:0px;margin-top:10px;" width="800" height="470"></canvas>
+<!--Segundo bloque: canvas fasores y senoides--> 
+<div class="canvas_cuadro" style="top:200px;left:0px;height:470px;width:1000px;">   
+    <canvas id="fasoresysenoidesCanvas" style="margin-left:0px;margin-top:10px;" width="1000" height="450"></canvas>
 </div>    
-<!--Tercer bloque: funciones--> 
-<div class="funciones_cuadro" style="top:100px;left:820px;height:470px;width:250px;border:2px solid;line-height:25px;">   
+
+<!--Tercer bloque: valores--> 
+<div class="funciones_cuadro" style="top:200px;left:1000px;height:470px;width:250px;border:2px solid;line-height:25px;">   
     <p id="parametros_id" style="font-size: 18px;padding-left:5px;padding-top:5px;"></p>
+    <!--
     <p id="funcion_posicion_id" style="font-size: 18px;color:blue;padding-left:5px;padding-top:15px;"></p>
     <p id="funcion_velocidad_id" style="font-size: 18px;color:green;padding-left:5px;padding-top:15px;"></p>
-    <p id="funcion_aceleracion_id" style="font-size: 18px;color:red;padding-left:5px;padding-top:15px;"></p>    
+    <p id="funcion_aceleracion_id" style="font-size: 18px;color:red;padding-left:5px;padding-top:15px;"></p>
+    -->
 </div>      
 
-<div class="creditos" style="top:580px;"> <!--Cuarto bloque: creditos-->
+<div class="creditos" style="top:704px;"> <!--Cuarto bloque: creditos-->
     <address>
       Desarrollado por Pablo Daniel Godoy<br>
       ITIC, Facultad de Ingeniería y FCEN<br>
