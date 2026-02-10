@@ -9,45 +9,9 @@
 
 <body onload="iniciar();">
 
-<?php
-  $usuario_agente = $_SERVER['HTTP_USER_AGENT'];
-  $navegador = "Desconocido";
-  $sistema_operativo = "Desconocido";
-  // Detectar el navegador
-  if (strpos($usuario_agente, 'MSIE') !== FALSE) {
-    $navegador = 'Internet Explorer';
-  } elseif (strpos($usuario_agente, 'Firefox') !== FALSE) {
-    $navegador = 'Firefox';
-  } elseif (strpos($usuario_agente, 'Chrome') !== FALSE) {
-    $navegador = 'Google Chrome';
-  } elseif (strpos($usuario_agente, 'Safari') !== FALSE) {
-    $navegador = 'Safari';
-  } elseif (strpos($usuario_agente, 'Opera') !== FALSE) {
-    $navegador = 'Opera';
-  }
-  // Detectar el sistema operativo
-  if (strpos($usuario_agente, 'Windows') !== FALSE) {
-    $sistema_operativo = 'Windows';
-  } elseif (strpos($usuario_agente, 'Mac') !== FALSE) {
-    $sistema_operativo = 'Macintosh';
-  } elseif (strpos($usuario_agente, 'Linux') !== FALSE) {
-    $sistema_operativo = 'Linux';
-  } elseif (strpos($usuario_agente, 'Android') !== FALSE) {
-    $sistema_operativo = 'Android';
-  } elseif (strpos($usuario_agente, 'iOS') !== FALSE) {
-    $sistema_operativo = 'iOS';
-  }
-  $file = fopen("registro_visitas.txt","a");
-  fwrite($file,date("Y/m/d")." - ".date("H:i:sa")." - IP: ".$_SERVER['REMOTE_ADDR']. " - ".$sistema_operativo." - ".$navegador."\n");
-  fclose($file); 
-?>
-
-
 
 <p style="text-align:center;font-size:28px">AC Phasor Diagram</p>
-<p style="text-align:center">
-<span style="padding-left:20px"><a href="sugerencias.html">Suggestions or comments</a></span>
-</p>
+
 
 <div class="principal">   
 
