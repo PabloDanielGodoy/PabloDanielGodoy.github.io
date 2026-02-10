@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="funciones.js"></script>
+  <link rel="icon" type="image/x-icon" href="logo_uncuyo.jpg"/>
+  <link rel="stylesheet" href="fasores_CA.css"/>  
+  <title>AC phasor diagram</title>
+</head>
+
+<body onload="iniciar();">
+<p style="text-align:center;font-size:28px">AC Phasor Diagram</p>
+<p style="text-align:center">
+<span style="padding-left:20px"><a href="sugerencias.html">Suggestions or comments</a></span>
+</p>
+
+<div class="principal">   
+
+<!--Primer bloque: controles. Arriba-->
+<div class="controles_cuadro" style="top:0px;left:0px;height:100px;width:1250px;">  
+    <!--div boton comenzar pausar-->
+    <div style="float:left;"> 
+    <button id="button_comenzar_pausar_id" class="activar_desactivar_activar" style="margin-top:20px;margin-left:10px;padding:20px;width:80px;" onclick="button_comenzar_pausar_click();">Start
+    </button>
+    </div>
+
+    <div style="float:left;"> <!--div boton Reiniciar-->
+    <button class="set_button" style="margin-top:20px;margin-left:10px;height:60px;padding:10px;padding:20px;width:100px;"
+        onclick="restartAnimation();">Restart</button>
+    </div>
+
+
+    <div style="float:left;"> <!--div boton Advance time One Step-->
+    <button class="set_button" style="margin-top:20px;margin-left:10px;height:60px;padding:10px;width:130px;"
+        onclick="advanceAnimation();">advance one step</button>
+    </div>
+
+    <!-- div para R--> 
+    <div style="float:left;margin-top:20px;margin-left:10px;margin-right:10px;height:80px;"> 
+    <div style="font-size:18px;text-align:center;">
+        Resistance
+    </div>
+    <div style="display:flex; align-items:center; justify-content:flex-end; gap:0px;">
+        <input type="text" id="text_R_id" name="R_text" value="100" style="width:80px;font-size: 16px;text-align:right;" onchange="actualizar_valores();">
+        <select id="unit_R_id" style="font-size:16px;" onchange="actualizar_valores();">
+            <option value="ohm" selected>&Omega;</option>
+            <option value="Kohm">K&Omega;</option>
+            <option value="Mohm">M&Omega;</option>            
+    </select>
+    </div>
+    </div>
+
+    <!-- div para L--> 
+    <div style="float:left;margin-top:20px;margin-left:10px;margin-right:10px;height:60px;"> 
+    <div style="font-size:18px;text-align:center;">
+        Inductance
+    </div>
+    <div style="display:flex; align-items:center; justify-content:flex-end; gap:0px;">
+        <input type="text" id="text_L_id" name="L_text" value="400" style="width:80px;font-size: 16px;text-align:right;" onchange="actualizar_valores();">
+        <select id="unit_L_id" style="font-size:16px;" onchange="actualizar_valores();">
+            <option value="H">H</option>
+            <option value="mH" selected>mH</option>
+            <option value="uH">μH</option>            
+    </select>
+    </div>
+    </div>
+
+<!-- div para C--> 
+    <div style="float:left;margin-top:20px;margin-left:10px;margin-right:10px;height:60px;"> 
+    <div style="font-size:18px;text-align:center;">
+        Capacitance
+    </div>
+    <div style="display:flex; align-items:center; justify-content:flex-end; gap:0px;">
+        <input type="text" id="text_C_id" name="C_text" value="4.7" style="width:80px;font-size: 16px;text-align:right;" onchange="actualizar_valores();">     
+        <select id="unit_C_id" style="font-size:16px;" onchange="actualizar_valores();">
+            <option value="F">F</option>
+            <option value="mF">mF</option>
+            <option value="uF" selected>μF</option>
+            <option value="nF">nF</option>
+            <option value="pF">pF</option>
+    </select>
+    </div>
+    </div>
+    
+<!-- div para Vs--> 
+    <div style="float:left;margin-top:20px;margin-left:10px;margin-right:10px;height:60px;"> 
+    <div style="font-size:18px;text-align:center;">
+        Source voltage
+    </div>
+    <div  style="display:flex; align-items:center; justify-content:flex-end; gap:0px;">
+        <input type="text" id="text_Vs_id" name="Vs_text" value="100" style="width:80px;font-size: 16px;text-align:right;" onchange="actualizar_valores();">
+        <label style="border:1px solid #555;padding: 0px 3px 0px 3px;">volts</label>
+    </div>
+    </div>
+
+<!-- div para F--> 
+    <div style="float:left;margin-top:20px;margin-left:20px;margin-right:20px;height:60px;"> 
+    <div style="font-size:18px;text-align:center;">
+        Frequency
+    </div>
+    <div  style="display:flex; align-items:center; justify-content:flex-end; gap:0px;">
+        <input type="text" id="text_frequency_id" name="frequency_text" value="1000" style="width:80px;font-size: 16px;" onchange="actualizar_valores();">
+        <select id="unit_frequency_id" style="font-size:16px;" onchange="actualizar_valores();">
+            <option value="Hz">Hz</option>
+            <option value="KHz">KHz</option>
+            <option value="MHz">MHz</option>
+            <option value="rad/seg" selected>rad/seg</option>
+            <option value="Krad/seg">Krad/seg</option>
+            <option value="Mrad/seg">Mrad/seg</option>
+    </select>
+    </div>
+    </div>
+</div>
+
+<!--Primer bloque parte B: controles--> 
+<div class="controles_cuadro" style="top:100px;left:0px;height:100px;width:1250px;"> 
+  <div style="float:left;margin-top:20px;margin-left:10px;margin-right:10px;height:80px;"> 
+    <div style="font-size:18px;text-align:center;">
+        Display
+    </div>
+    <div style="display:flex; align-items:center; justify-content:flex-end; gap:0px;">
+        <input type="checkbox" id="checkbox_VS_id" checked>
+        <label for="checkbox_VS_id">Vs</label>
+        <input type="checkbox" id="checkbox_VR_id" style="margin-left:15px;" checked>
+        <label for="checkbox_VR_id">V<sub>R</sub></label>
+        <input type="checkbox" id="checkbox_VL_id" style="margin-left:15px;" checked>
+        <label for="checkbox_VL_id">V<sub>L</sub></label>
+        <input type="checkbox" id="checkbox_VC_id" style="margin-left:15px;" checked>
+        <label for="checkbox_VC_id">V<sub>C</sub></label>
+        <input type="checkbox" id="checkbox_i_id" style="margin-left:15px;" checked>
+        <label for="checkbox_i_id">i</label>
+        <input type="checkbox" id="checkbox_fi_id" style="margin-left:15px;" checked>
+        <label for="checkbox_i_id">&#934</label>
+    </div>
+  </div>
+  <div style="float:left;margin-top:10px;margin-left:100px;margin-right:10px;height:80px;">
+    <div style="font-size:18px;text-align:center;height: 30px;">
+        Examples
+    </div>
+      <div style="display:flex; align-items:center; justify-content:flex-end; gap:0px;">
+      <button id="button_RLC_inductive_id" class="activar_desactivar_activar" style="margin-top:0px;margin-left:10px;padding:0px;width:140px;height: 30px;" onclick="button_RLC_inductive_click();">RLC inductive    </button>
+      <button id="button_RLC_capacitive_id" class="activar_desactivar_activar" style="margin-top:00px;margin-left:10px;padding:0px;width:140px; height: 30px;" onclick="button_RLC_capacitive_click();">RLC capacitive</button> 
+      <button id="button_resonance_id" class="activar_desactivar_activar" style="margin-top:00px;margin-left:10px;padding:0px;width:140px; height: 30px;" onclick="button_comenzar_pausar_click();">Resonance</button>
+      <button id="button_RL_id" class="activar_desactivar_activar" style="margin-top:00px;margin-left:10px;padding:0px;width:140px; height: 30px;" onclick="button_comenzar_pausar_click();">RL (infinite C)</button>
+      <button id="button_RC_id" class="activar_desactivar_activar" style="margin-top:00px;margin-left:10px;padding:0px;width:140px; height: 30px;" onclick="button_comenzar_pausar_click();">RC (L=0 H)</button>
+  </div>
+</div>
+</div>
+
+<!--Segundo bloque: canvas fasores y senoides--> 
+<div class="canvas_cuadro" style="top:200px;left:0px;height:470px;width:1000px;">   
+    <canvas id="fasoresysenoidesCanvas" style="margin-left:0px;margin-top:10px;" width="1000" height="450"></canvas>
+</div>    
+
+<!--Tercer bloque: valores--> 
+<div class="funciones_cuadro" style="top:200px;left:1000px;height:470px;width:250px;border:2px solid;line-height:25px;">   
+    <p id="parametros_id" style="font-size: 18px;padding-left:5px;padding-top:5px;"></p>
+    <!--
+    <p id="funcion_posicion_id" style="font-size: 18px;color:blue;padding-left:5px;padding-top:15px;"></p>
+    <p id="funcion_velocidad_id" style="font-size: 18px;color:green;padding-left:5px;padding-top:15px;"></p>
+    <p id="funcion_aceleracion_id" style="font-size: 18px;color:red;padding-left:5px;padding-top:15px;"></p>
+    -->
+</div>      
+
+<div class="creditos" style="top:704px;"> <!--Cuarto bloque: creditos-->
+    <address>
+      Desarrollado por Pablo Daniel Godoy<br>
+      ITIC, Facultad de Ingeniería y FCEN<br>
+      Universidad Nacional de Cuyo
+    </address>
+  </div> 
+  
+</body>
+</html>
+  
